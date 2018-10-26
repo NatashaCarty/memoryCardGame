@@ -29,6 +29,36 @@ function shuffle(array) {
 }
 
 
+//adds event listener to cards
+(function() {
+    let cards = document.querySelectorAll('.card');
+    for (var i = 0; i < cards.length; i++){
+      cards[i].addEventListener('click', function(){
+        opened(this);
+    });
+  }
+}) ();
+
+//flips cards over and determines if they are a match
+function opened(card) {
+  if (!card.classList.contains('match') || !card.classList.contains('open')){
+    if (count == 0){
+      cardOne = card;
+      card.className += ' show open';
+      count++;
+    }else if (count == 1){
+      cardTwo = card;
+      card.className += ' show open';
+      count = 0;
+      if (cardOne.childNodes[1].className == cardTwo.childNodes[1].className){
+        console.log('test');
+      }
+    }
+  }
+}
+
+
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
