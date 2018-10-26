@@ -1,3 +1,8 @@
+var count = 0;
+var matchCount = 0;
+var cardOne, cardTwo;
+var match = true;
+var turnCount = 0;
 
  //creates an array of the card elements, shuffles them, and
  //reapplies the card elements to the DOM
@@ -51,12 +56,36 @@ function opened(card) {
       card.className += ' show open';
       count = 0;
       if (cardOne.childNodes[1].className == cardTwo.childNodes[1].className){
-        console.log('test');
+        cardMatch(cardOne, cardTwo);
+      } else {
+        match = false;
+        flipBack();
       }
     }
   }
 }
 
+//locking cards open
+function cardMatch(one, two){
+  one.className += ' match';
+  two.className += ' match';
+  match = true;
+  matchCount++;
+}
+
+//flips the card back over if they are not a match
+async function flipBack(){
+  if (turnCount != 0 && !match){
+    await sleep(500);
+    cardOne.className = 'card';
+    cardTwo.className = 'card';
+  }
+}
+
+//sleep function creates a delay between command runs
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 
 /*
