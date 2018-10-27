@@ -42,6 +42,7 @@ function shuffle(array) {
         opened(this);
     });
   }
+  resetGame();
 }) ();
 
 //flips cards over and determines if they are a match
@@ -62,6 +63,7 @@ function opened(card) {
         flipBack();
       }
     }
+    moveCounter();
   }
 }
 
@@ -87,6 +89,42 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+//increments the move counter if the game is a winner calls the winner function
+function moveCounter(){
+  turnCount ++;
+  starCount();
+  document.querySelector('.moves').innerText = turnCount;
+  if (matchCount == 8){
+    winner();
+  }
+}
+
+
+//displays an alert after the game is won
+async function winner() {
+  await sleep(500);
+  alert('You WIN!! You took ' + turnCount + ' moves!');
+}
+
+//removes stars when reaching designated move count
+function starCount(){
+  var stars = document.querySelector('.stars');
+  if (turnCount == 21){
+    stars.removeChild(stars.childNodes[5]);
+  }
+  if (turnCount == 31){
+    stars.removeChild(stars.childNodes[3]);
+  }
+}
+
+
+//resets the game board
+function resetGame(){
+  let restart = document.querySelector('.restart');
+  restart.addEventListener('click', function(){
+    document.location.reload();
+  });
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
