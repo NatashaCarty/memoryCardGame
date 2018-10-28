@@ -3,6 +3,9 @@ var matchCount = 0;
 var cardOne, cardTwo;
 var match = true;
 var turnCount = 0;
+var starNumber = 3;
+var timer = 0.0;
+var start;
 
  //creates an array of the card elements, shuffles them, and
  //reapplies the card elements to the DOM
@@ -36,6 +39,7 @@ function shuffle(array) {
 
 //adds event listener to cards
 (function() {
+    pageCopy = document.querySelector('.container');
     let cards = document.querySelectorAll('.card');
     for (var i = 0; i < cards.length; i++){
       cards[i].addEventListener('click', function(){
@@ -43,11 +47,15 @@ function shuffle(array) {
     });
   }
   resetGame();
+  newGameButton();
 }) ();
 
 //flips cards over and determines if they are a match
 function opened(card) {
-  if (!card.classList.contains('match') || !card.classList.contains('open')){
+  if(turnCount == 0){
+    start = new Date().getTime()
+  }
+  if (!card.classList.contains('match') && !card.classList.contains('open')){
     if (count == 0){
       cardOne = card;
       card.className += ' show open';
@@ -103,17 +111,27 @@ function moveCounter(){
 //displays an alert after the game is won
 async function winner() {
   await sleep(500);
-  alert('You WIN!! You took ' + turnCount + ' moves!');
+  document.querySelector('.endMoves').innerText = turnCount;
+  document.querySelector('.container').className = "hide";
+  document.querySelector('.winner').className = "";
+  document.querySelector('.starNumber').innerText = starNumber;
+  document.querySelector('.finalTime').innerText = timer;
+
 }
 
 //removes stars when reaching designated move count
+//decrements starNumber
 function starCount(){
   var stars = document.querySelector('.stars');
   if (turnCount == 21){
     stars.removeChild(stars.childNodes[5]);
+    starNumber --;
+    console.log(starNumber);
   }
   if (turnCount == 31){
     stars.removeChild(stars.childNodes[3]);
+    starNumber --;
+    console.log(starNumber);
   }
 }
 
@@ -126,13 +144,20 @@ function resetGame(){
   });
 }
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+
+function newGameButton(){
+  let newGame = document.querySelector('.newGame');
+  newGame.addEventListener('click', function(){
+    document.location.reload();
+  });
+}
+
+// //keeps game timer
+window.setInterval(function() {
+  if(start != null) {
+    var elapsedTime = new Date().getTime() - start;
+    timer = Math.floor(elapsedTime / 100) / 10;
+    if(Math.round(timer) == timer) { timer += '.0';}
+    document.querySelector('.timer').innerText = timer;
+  }
+}, 100);

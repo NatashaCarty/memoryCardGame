@@ -107,3 +107,27 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+.hide {
+  display: none;
+}
+
+.finalScores {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.timer {
+  text-align: center; 
+}
+
+.newGame {
+  border-radius: 12px;
+}
+.newGame:hover {
+  background-color: lightblue;
+}
