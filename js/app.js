@@ -1,3 +1,5 @@
+//used starter zip folder for Memory Game project from Udacity
+
 var count = 0;
 var matchCount = 0;
 var cardOne, cardTwo;
@@ -152,7 +154,7 @@ function newGameButton(){
   });
 }
 
-// //keeps game timer
+// //keeps game timer https://www.sitepoint.com/creating-accurate-timers-in-javascript/
 window.setInterval(function() {
   if(start != null) {
     var elapsedTime = new Date().getTime() - start;
